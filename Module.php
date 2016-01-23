@@ -32,6 +32,7 @@ class Module extends \yii\base\Module {
         if (\Yii::$app instanceof \yii\console\Application) {
             $this->controllerNamespace = 'humanized\translation\commands';
         }
+
         $this->_setupDbDefaults();
         $this->_setupLocaleUrl();
     }
@@ -46,8 +47,14 @@ class Module extends \yii\base\Module {
     {
         $this->params['localeUrlsConfig'] = $this->localeUrlsConfig;
 
+        $config = [
+            'class' => 'codemix\localeurls\UrlManager',
+            // List all supported languages here
+            // Make sure, you include your app's default language.
+            'languages' => ['en', 'fr', 'de'],
+        ];
         //Setup URL Manager
-        
+
     }
 
 }
