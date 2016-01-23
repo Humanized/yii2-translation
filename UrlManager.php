@@ -14,8 +14,12 @@ class UrlManager extends BaseUrlManager {
             return strtolower($x);
         }, array_keys(DataHelper::getLanguageList()));
 
-        $this->_defaultLanguage = strtolower(DataHelper::getDefaultLanguage());
-        return parent::init();
+        if (parent::init()) {
+            $default = DataHelper::getDefaultLanguage();
+            if (isset($default)) {
+                $this->_defaultLanguage = strtolower($default->code);
+            }
+        }
     }
 
 }
