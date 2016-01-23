@@ -38,16 +38,11 @@ class AdminController extends Controller {
      */
     public function actionIndex()
     {
-        $enabledModel = new LanguageSearch(['is_enabled' => 1]);
-        $enabledProvider = $enabledModel->search(Yii::$app->request->queryParams);
-        $disabledModel = new LanguageSearch(['is_enabled' => 0]);
-        $disabledProvider = $disabledModel->search(Yii::$app->request->queryParams);
-
+        $searchModel = new LanguageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
-                    'enabledSearchModel' => $enabledModel,
-                    'enabledDataProvider' => $enabledProvider,
-                    'disabledSearchModel' => $disabledModel,
-                    'disabledDataProvider' => $disabledProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 

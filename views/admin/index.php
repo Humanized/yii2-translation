@@ -17,23 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </aside>
 
-        <div class="col-md-4">
+        <div class="col-md-8">
             <?=
             $this->render('_grid', [
-                'dataProvider' => $enabledDataProvider,
-                'searchModel' => $enabledSearchModel
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel
             ])
             ?>
         </div>
 
-        <div class="col-md-4">
-            <?=
-            $this->render('_grid', [
-                'dataProvider' => $disabledDataProvider,
-                'searchModel' => $disabledSearchModel
-            ])
-            ?>
-        </div>
     </div>
 
 </div>

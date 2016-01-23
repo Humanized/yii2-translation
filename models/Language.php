@@ -42,8 +42,8 @@ class Language extends \yii\db\ActiveRecord {
     {
         return [
             'code' => 'Code',
-            'is_default' => 'Is Default',
-            'is_enabled' => 'Is Enabled',
+            'is_default' => 'Default',
+            'is_enabled' => 'Enabled',
             'system_name' => 'System Name',
         ];
     }

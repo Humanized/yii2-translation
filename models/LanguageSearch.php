@@ -49,7 +49,13 @@ class LanguageSearch extends Language {
             'query' => $query,
             'pagination' => [
                 'pageSize' => 10,
-            ]
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'is_default' => SORT_DESC,
+                    'is_enabled' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
