@@ -45,6 +45,9 @@ class Module extends \yii\base\Module {
     private function _setupLocaleUrl()
     {
         $this->params['localeUrlsConfig'] = $this->localeUrlsConfig;
+
+        //Setup URL Manager
+        
     }
 
 }
