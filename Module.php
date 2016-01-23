@@ -1,6 +1,6 @@
 <?php
 
-namespace humanized\contact;
+namespace humanized\translation;
 
 /**
  * Translation Module for Yii2 - By Humanized
@@ -22,7 +22,9 @@ class Module extends \yii\base\Module {
      * 
      * @var array<String>  
      */
-    public $enabledLanguages = ['en'];
+    public $languages = ['en', 'nl', 'fr', 'de', 'es'];
+    public $default = 'en';
+    public $localeUrlsConfig = [];
 
     public function init()
     {
@@ -30,7 +32,19 @@ class Module extends \yii\base\Module {
         if (Yii::$app instanceof \yii\console\Application) {
             $this->controllerNamespace = 'humanized\translation\commands';
         }
-        $this->params['enabledLanguages'] = $this->enabledLanguages;
+        $this->_setupDbDefaults();
+        $this->_setupLocaleUrl();
+    }
+
+    private function _setupDbDefaults()
+    {
+        $this->params['default'] = $this->default;
+        $this->params['languages'] = $this->languages;
+    }
+
+    private function _setupLocaleUrl()
+    {
+        $this->params['localeUrlsConfig'] = $this->localeUrlsConfig;
     }
 
 }

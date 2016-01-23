@@ -3,6 +3,7 @@
 namespace humanized\translation\commands;
 
 use humanized\clihelpers\controllers\Controller;
+
 //use humanized\translation\models\Language;
 
 /**
@@ -10,15 +11,14 @@ use humanized\clihelpers\controllers\Controller;
  * 
  * Supported commands:
  * 
- * > contact/import/countries
- * 
- * > contact/import/locations
+ * > <module-name>/setup/data 
  * 
  * 
- * @name Location Import CLI
+ * 
+ * @name Translation Module Setup CLI
  * @version 0.1
  * @author Jeffrey Geyssens <jeffrey@humanized.be>
- * @package yii2-contact
+ * @package yii2-translation
  * 
  * 
  * 
@@ -35,12 +35,8 @@ class SetupController extends Controller {
     {
         //Set filename to default location
         if (!isset($fn)) {
-            $fn = \Yii::getAlias('@vendor') . '/humanized/yii2-contact/data/iso-639-1.csv';
+            $fn = \Yii::getAlias('@vendor') . '/humanized/yii2-contact/data/languages.csv';
         }
-
-        //
-
-
         $attributes = [
             0 => 'code',
             1 => 'system_name'
@@ -52,9 +48,10 @@ class SetupController extends Controller {
             'attributeMap' => $attributes
         ];
         return $this->importCSV($config, function(&$record) {
-                    $src = \Yii::$app->controller->module->params['languages'];
-                    $record['is_enabled'] = in_array($record[1], $src);
-                    $record['is_default'] = in_array($record[1], $src);
+                    $languages = \Yii::$app->controller->module->params['languages'];
+                    $default = \Yii::$app->controller->module->params['default'];
+                    $record['is_enabled'] = in_array($record[1], $languages);
+                    $record['is_default'] = $record[1] == $default;
                 });
     }
 
