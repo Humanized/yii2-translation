@@ -3,8 +3,7 @@
 namespace humanized\translation\commands;
 
 use humanized\clihelpers\controllers\Controller;
-
-//use humanized\translation\models\Language;
+use humanized\translation\models\Language;
 
 /**
  * A CLI allowing Yii2 location managementS.
@@ -35,7 +34,7 @@ class SetupController extends Controller {
     {
         //Set filename to default location
         if (!isset($fn)) {
-            $fn = \Yii::getAlias('@vendor') . '/humanized/yii2-contact/data/languages.csv';
+            $fn = \Yii::getAlias('@vendor') . '/humanized/yii2-translation/data/languages.csv';
         }
         $attributes = [
             0 => 'code',
@@ -43,15 +42,18 @@ class SetupController extends Controller {
         ];
         $config = [
             'fileName' => $fn,
-            'delimeter' => $delimiter,
+            'delimiter' => $delimiter,
             'saveModel' => Language::className(),
             'attributeMap' => $attributes
         ];
-        return $this->importCSV($config, function(&$record) {
+        return $this->importCSV($config, function(&$record, $config) {
                     $languages = \Yii::$app->controller->module->params['languages'];
                     $default = \Yii::$app->controller->module->params['default'];
-                    $record['is_enabled'] = in_array($record[1], $languages);
-                    $record['is_default'] = $record[1] == $default;
+
+                    $record['is_enabled'] = in_array(strtolower($record['code']), array_map(function($val) {
+                                        return strtolower($val);
+                                    }, $languages)) ? 1 : 0;
+                    $record['is_default'] = strtolower($record['code']) == strtolower($default) ? 1 : 0;
                 });
     }
 
