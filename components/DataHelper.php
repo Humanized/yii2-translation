@@ -15,4 +15,9 @@ class DataHelper {
         return ArrayHelper::map(Language::findAll(['is_enabled' => TRUE]), 'code', 'system_name');
     }
 
+    public static function getDefaultLanguage()
+    {
+        return Language::findOne(['is_default' => TRUE]);
+    }
+
 }
