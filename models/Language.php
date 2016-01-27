@@ -22,11 +22,6 @@ class Language extends \yii\db\ActiveRecord {
         return 'language';
     }
 
-    public static function primaryKey()
-    {
-        return 'code';
-    }
-
     /**
      * @inheritdoc
      */
@@ -89,6 +84,20 @@ class Language extends \yii\db\ActiveRecord {
     public static function current()
     {
         return \Yii::$app->language;
+    }
+
+    public static function set($language)
+    {
+        if (self::is_enabled($language)) {
+            \Yii::$app->language = $language;
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    public static function is_enabled($language)
+    {
+        return TRUE;
     }
 
 }
