@@ -22,6 +22,11 @@ class Language extends \yii\db\ActiveRecord {
         return 'language';
     }
 
+    public static function primaryKey()
+    {
+        return 'code';
+    }
+
     /**
      * @inheritdoc
      */
@@ -54,6 +59,36 @@ class Language extends \yii\db\ActiveRecord {
     public function getTranslations()
     {
         return $this->hasMany(LanguageTranslation::className(), ['source_id' => 'code']);
+    }
+
+    public function switchEnable()
+    {
+        $this->is_enabled = !$this->is_enabled;
+        $this->save();
+    }
+
+    /* =========================================================================
+     *                          Static Helper Functions 
+     * =========================================================================
+     */
+
+    /**
+     * 
+     * @return type
+     */
+    public static function fallback()
+    {
+        return Language::findOne(['is_default' => TRUE]);
+    }
+
+    public static function enabled()
+    {
+        return Language::findAll(['is_enabled' => 1]);
+    }
+
+    public static function current()
+    {
+        return \Yii::$app->language;
     }
 
 }

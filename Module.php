@@ -23,7 +23,7 @@ class Module extends \yii\base\Module {
      * @var array<String>  
      */
     public $languages = ['en', 'nl', 'fr', 'de', 'es'];
-    public $default = 'en';
+    public $fallback = 'en';
     public $localeUrlsConfig = [];
 
     public function init()
@@ -39,7 +39,7 @@ class Module extends \yii\base\Module {
 
     private function _setupDbDefaults()
     {
-        $this->params['default'] = $this->default;
+        $this->params['fallback'] = $this->fallback;
         $this->params['languages'] = $this->languages;
     }
 

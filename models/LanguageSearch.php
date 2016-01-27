@@ -28,7 +28,7 @@ class LanguageSearch extends Language {
      */
     public function scenarios()
     {
-// bypass scenarios() implementation in the parent class
+        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -42,8 +42,7 @@ class LanguageSearch extends Language {
     public function search($params)
     {
         $query = Language::find();
-
-// add conditions that should always apply here
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,9 +56,7 @@ class LanguageSearch extends Language {
                 ]
             ],
         ]);
-
         $this->load($params);
-
         if (!$this->validate()) {
 // uncomment the following line if you do not want to return any records when validation fails
 // $query->where('0=1');
