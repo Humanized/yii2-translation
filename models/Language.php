@@ -83,7 +83,7 @@ class Language extends \yii\db\ActiveRecord {
 
     public static function enabled()
     {
-        return Language::findAll(['is_enabled' => 1]);
+        return Language::findAll(['is_enabled' => TRUE]);
     }
 
     public static function current()

@@ -48,7 +48,7 @@ class SetupController extends Controller {
         ];
         return $this->importCSV($config, function(&$record, $config) {
                     $languages = \Yii::$app->controller->module->params['languages'];
-                    $default = \Yii::$app->controller->module->params['default'];
+                    $default = \Yii::$app->controller->module->params['fallback'];
 
                     $record['is_enabled'] = in_array(strtolower($record['code']), array_map(function($val) {
                                         return strtolower($val);

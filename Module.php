@@ -34,27 +34,12 @@ class Module extends \yii\base\Module {
         }
 
         $this->_setupDbDefaults();
-        $this->_setupLocaleUrl();
     }
 
     private function _setupDbDefaults()
     {
         $this->params['fallback'] = $this->fallback;
         $this->params['languages'] = $this->languages;
-    }
-
-    private function _setupLocaleUrl()
-    {
-        $this->params['localeUrlsConfig'] = $this->localeUrlsConfig;
-
-        $config = [
-            'class' => 'codemix\localeurls\UrlManager',
-            // List all supported languages here
-            // Make sure, you include your app's default language.
-            'languages' => ['en', 'fr', 'de'],
-        ];
-        //Setup URL Manager
-
     }
 
 }
