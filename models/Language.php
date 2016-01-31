@@ -58,7 +58,7 @@ class Language extends \yii\db\ActiveRecord {
 
     public function switchEnable()
     {
-        $this->is_enabled = !$this->is_enabled;
+        $this->is_enabled = ($this->is_enabled == FALSE ? 1 : 0);
         $this->save();
     }
 
