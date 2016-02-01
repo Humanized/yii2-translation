@@ -26,6 +26,76 @@ class SetupController extends Controller {
 
     /**
      * 
+     * @param string $language - language code to enable
+     */
+    public function actionEnable($language)
+    {
+        if (!Language::is_enabled($language)) {
+            $model = $this->_getModel($language);
+            if (isset($model)) {
+                $model->switchEnable();
+                $this->_msg = $language . ' - enabled';
+            } else {
+                $this->_msg = $language . ' does not exist in database';
+                $this->_exitCode = '102';
+            }
+        } else {
+            $this->_msg = $language . ' already enabled';
+            $this->_exitCode = '101';
+        }
+        return $this->_exitCode;
+    }
+
+    /**
+     * 
+     * @param string $language - language code to disable
+     */
+    public function actionDisable($language)
+    {
+
+
+        if (Language::is_enabled($language)) {
+            $model = $this->_getModel($language);
+            if (isset($model)) {
+                $model->switchEnable();
+                $this->_msg = $language . ' - disabled';
+            } else {
+                $this->_msg = $language . ' does not exist in database';
+                $this->_exitCode = '202';
+            }
+        } else {
+            $this->_msg = $language . ' already disabled';
+            $this->_exitCode = '201';
+        }
+        return $this->_exitCode;
+    }
+
+    /**
+     * 
+     * @param string $language - language code to be set as default application fallback
+     */
+    public function actionSetFallback($language)
+    {
+        $model = $this->_getModel($language);
+        if (isset($model)) {
+            
+        }
+        return $this->_exitCode;
+    }
+
+    private function _getModel($language)
+    {
+        $model = Language::findOne(['code' => $language]);
+        if (!isset($model)) {
+            $this->_msg = $language . ' does not exist in the database';
+            $this->_exitCode = 501;
+            return NULL;
+        }
+        return $model;
+    }
+
+    /**
+     * 
      * @param string $fn Absolute Path to Import Filename, if not set, the system will use a default import file loaded in the data folder in the root of the extension
      * @param type $delimiter
      * @return type

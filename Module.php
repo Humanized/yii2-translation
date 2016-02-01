@@ -16,27 +16,51 @@ namespace humanized\translation;
  * @package yii2-translation
  */
 class Module extends \yii\base\Module {
+    /*
+     * =========================================================================
+     *                          Module Configuration
+     * =========================================================================
+     */
+
+    /**
+     *  
+     * @since 0.1
+     * @var array<String>  An array with supported language codes
+     * 
+     * The enabled values will be stored in the database when running the setup command.
+     * Values can be edited once database setup through the application GUI or CLI 
+     * 
+     */
+    public $languages = ['en', 'nl', 'fr', 'de', 'es'];
+
+    /**
+     *  
+     * @since 0.1
+     * @var string  The default application fallback language
+     * 
+     * The value will be stored in the database when running the setup command.
+     * Value can be edited once database setup through the application GUI or CLI 
+     * 
+     */
+    public $fallback = 'en';
 
     /**
      *  
      * 
-     * @var array<String>  
      */
-    public $languages = ['en', 'nl', 'fr', 'de', 'es'];
-    public $fallback = 'en';
-    public $localeUrlsConfig = [];
-
     public function init()
     {
         parent::init();
         if (\Yii::$app instanceof \yii\console\Application) {
             $this->controllerNamespace = 'humanized\translation\commands';
         }
-
-        $this->_setupDbDefaults();
+        $this->_loadConfiguration();
     }
 
-    private function _setupDbDefaults()
+    /**
+     * Loads configuration values 
+     */
+    private function _loadConfiguration()
     {
         $this->params['fallback'] = $this->fallback;
         $this->params['languages'] = $this->languages;
