@@ -38,7 +38,7 @@ class LanguageSelector extends Widget {
         $urls = [];
         foreach (Language::enabled() as $language) {
             $code = $language->code;
-            if (Language::current() != $code) {
+            if (strtoupper(Language::current()) != strtoupper($code)) {
                 $urls[] = Html::a($language->code, ["/$route", 'language' => $language->code]);
             }
         }
