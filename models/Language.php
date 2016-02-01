@@ -97,9 +97,9 @@ class Language extends \yii\db\ActiveRecord {
 
     public static function is_enabled($language)
     {
-        return in_array($language, array_map(function($l) {
-                            return $l->code;
-                        }, self::enabled()));
+        return in_array(strtoupper($language), array_map(function($l) {
+                    return $l->code;
+                }, self::enabled()));
     }
 
 }
