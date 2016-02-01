@@ -52,8 +52,6 @@ class SetupController extends Controller {
      */
     public function actionDisable($language)
     {
-
-
         if (Language::is_enabled($language)) {
             $model = $this->_getModel($language);
             if (isset($model)) {
@@ -76,9 +74,12 @@ class SetupController extends Controller {
      */
     public function actionSetFallback($language)
     {
-        $model = $this->_getModel($language);
-        if (isset($model)) {
-            
+        if (Language::is_enabled($language)) {
+
+            $model = $this->_getModel($language);
+            if (isset($model)) {
+                
+            }
         }
         return $this->_exitCode;
     }
