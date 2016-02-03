@@ -73,7 +73,7 @@ class Language extends \yii\db\ActiveRecord {
      */
     public static function fallback()
     {
-        return Language::findOne(['is_default' => TRUE]);
+        return Language::findOne(['is_default' => TRUE])->code;
     }
 
     public static function enabled()
