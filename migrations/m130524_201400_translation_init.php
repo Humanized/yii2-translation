@@ -2,7 +2,8 @@
 
 use yii\db\Migration;
 
-class m130524_201400_translation_init extends Migration {
+class m130524_201400_translation_init extends Migration
+{
 
     private $_module = NULL;
     private $_tableOptions = NULL;
@@ -22,8 +23,8 @@ class m130524_201400_translation_init extends Migration {
     {
         $this->createTable('language', [
             'code' => $this->string(10)->notNull(), //ISO-2 Code is considered ID, more space allocated to keep things flexible
-            'is_default' => $this->boolean(TRUE)->notNull(),
-            'is_enabled' => $this->boolean(FALSE)->notNull(),
+            'is_default' => $this->boolean()->defaultValue(FALSE)->notNull(),
+            'is_enabled' => $this->boolean()->defaultValue(TRUE)->notNull(),
             'system_name' => $this->string(255)->notNull(),
                 //     'native_name' => $this->string(255), //todo
                 ], $this->_tableOptions);
