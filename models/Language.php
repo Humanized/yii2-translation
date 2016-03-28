@@ -12,7 +12,8 @@ namespace humanized\translation\models;
  *
  * @property LanguageTranslation[] $translations
  */
-class Language extends \yii\db\ActiveRecord {
+class Language extends \yii\db\ActiveRecord
+{
 
     /**
      * @inheritdoc
@@ -28,8 +29,7 @@ class Language extends \yii\db\ActiveRecord {
     public function rules()
     {
         return [
-            [['code', 'is_default', 'is_enabled', 'system_name'], 'required'],
-            [['is_default', 'is_enabled'], 'integer'],
+            [['code', 'system_name'], 'required'],
             [['code'], 'string', 'max' => 10],
             [['system_name'], 'string', 'max' => 255],
         ];
@@ -42,8 +42,6 @@ class Language extends \yii\db\ActiveRecord {
     {
         return [
             'code' => 'Code',
-            'is_default' => 'Default',
-            'is_enabled' => 'Enabled',
             'system_name' => 'System Name',
         ];
     }

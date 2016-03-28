@@ -22,7 +22,8 @@ use humanized\translation\models\Language;
  * 
  * 
  */
-class SetupController extends Controller {
+class SetupController extends Controller
+{
 
     /**
      * 
@@ -107,25 +108,31 @@ class SetupController extends Controller {
         if (!isset($fn)) {
             $fn = \Yii::getAlias('@vendor') . '/humanized/yii2-translation/data/languages.csv';
         }
-        $attributes = [
+        $attributeMap = [
             0 => 'code',
             1 => 'system_name'
         ];
-        $config = [
-            'fileName' => $fn,
-            'delimiter' => $delimiter,
-            'saveModel' => Language::className(),
-            'attributeMap' => $attributes
-        ];
-        return $this->importCSV($config, function(&$record, $config) {
-                    $languages = \Yii::$app->controller->module->params['languages'];
-                    $default = \Yii::$app->controller->module->params['fallback'];
+       
 
-                    $record['is_enabled'] = in_array(strtolower($record['code']), array_map(function($val) {
-                                        return strtolower($val);
-                                    }, $languages)) ? 1 : 0;
-                    $record['is_default'] = strtolower($record['code']) == strtolower($default) ? 1 : 0;
-                });
+        $file = fopen($fn, "r");
+        
+        while (!feof($file)) {
+        
+            $record = fgetcsv($file, 0, $delimiter);
+            
+            if (isset($record[0])) {
+                //Parse attribute map
+                $attributes = $this->parseAttributeMap($attributeMap, $record);
+            //    var_dump($attributes);
+                $model = new Language();
+                $model->setAttributes($attributes);
+                $model->save();
+            
+                
+            } else {
+                break;
+            }
+        }
     }
 
 }
