@@ -4,7 +4,7 @@ namespace humanized\translation\components;
 
 use yii\base\Widget;
 use yii\helpers\Html;
-use humanized\translation\models\Language;
+use humanized\translation\models\Translation;
 
 /**
  * LanguagePicker Widget for Yii2 - By Humanized
@@ -36,9 +36,9 @@ class LanguageSelector extends Widget {
     {
         $route = \Yii::$app->controller->route;
         $urls = [];
-        foreach (Language::enabled() as $language) {
+        foreach (Translation::enabled() as $language) {
             $code = $language->code;
-            if (strtoupper(Language::current()) != strtoupper($code)) {
+            if (strtoupper(Translation::current()) != strtoupper($code)) {
                 $urls[] = Html::a($language->code, ["/$route", 'language' => $language->code]);
             }
         }

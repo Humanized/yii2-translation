@@ -9,13 +9,13 @@
 namespace humanized\translation\controllers;
 
 use Yii;
-use humanized\translation\models\Translation;
-use humanized\translation\models\TranslationSearch;
+use humanized\translation\models\Languages;
+use humanized\translation\models\LanguageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-class AdminController extends Controller
+class LanguagesController extends Controller
 {
 
     /**
@@ -40,7 +40,7 @@ class AdminController extends Controller
     public function actionIndex()
     {
 
-        $searchModel = new TranslationSearch();
+        $searchModel = new LanguageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -57,10 +57,10 @@ class AdminController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (!Translation::is_enabled($id)) {
-            Translation::enable($id);
+        if (!Languages::is_enabled($id)) {
+            Languages::enable($id);
         } else {
-            Translation::disable($id);
+            Languages::disable($id);
         }
         $this->redirect('index');
     }
@@ -86,7 +86,7 @@ class AdminController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Translation::findOne($id)) !== null) {
+        if (($model = Languages::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

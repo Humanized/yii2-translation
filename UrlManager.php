@@ -4,7 +4,7 @@ namespace humanized\translation;
 
 use yii\base\InvalidConfigException;
 use codemix\localeurls\UrlManager as BaseUrlManager;
-use humanized\translation\models\Language;
+use humanized\translation\models\Translation;
 
 class UrlManager extends BaseUrlManager {
 
@@ -13,10 +13,10 @@ class UrlManager extends BaseUrlManager {
 
         $this->languages = array_map(function($model) {
             return $model->code;
-        }, Language::enabled());
+        },  Translation::enabled());
 
         if (parent::init()) {
-            $default = Language::fallback();
+            $default = Translation::fallback();
             if (isset($default)) {
                 $this->_defaultLanguage = strtolower($default->code);
             }

@@ -3,7 +3,7 @@
 /* @var $searchModel humanized\translation\models\LanguageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Translations';
+$this->title = 'Languages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="language-index">
@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <aside class="col-md-4">
             <div class="well">
-                <blockquote><span class="glyphicon glyphicon-bullhorn"></span> System Translation</blockquote>
+                <blockquote><span class="glyphicon glyphicon-bullhorn"></span> System Language</blockquote>
                 <?= $this->render('/menu/_aside') ?>
             </div>
 
