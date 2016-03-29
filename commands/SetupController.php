@@ -141,7 +141,7 @@ class SetupController extends Controller
         //$this->actionTranslationData();
     }
 
-    public function actionTranslationData()
+    public function actionDataTranslation()
     {
         \humanized\translation\data\LanguageTranslationData::load();
         return 0;
