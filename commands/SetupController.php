@@ -131,15 +131,20 @@ class SetupController extends Controller
                 $fallback = strtolower($module->params['fallback']);
 
                 if (in_array(strtolower($model->code), $languages)) {
-                    echo $model->code;
                     $default = ($fallback == strtolower($model->code) ? 1 : 0);
-
                     Translation::activate($model->code, 1, $default);
                 }
             } else {
                 break;
             }
         }
+        //$this->actionTranslationData();
+    }
+
+    public function actionDataTranslation()
+    {
+        \humanized\translation\data\LanguageTranslationData::load();
+        return 0;
     }
 
 }
