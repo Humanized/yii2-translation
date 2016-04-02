@@ -4,7 +4,7 @@ use humanized\clihelpers\components\Migration;
 
 class m160328_180535_translation_split extends Migration
 {
-
+    protected $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
     public $dropped = ['is_enabled', 'is_default'];
 
     public function safeUp()
