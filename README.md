@@ -49,7 +49,26 @@ Add following lines to the configuration file:
 ],
 ```
 
-For full instructions how to configure this module, check the [CONFIG](CONFIG.md)-file.
+These lines allow access to the various interfaces provided by the module. Here, the chosen module-name is translation, as such the various routes will be available at translation/<controller>/<action>, though any module-name can be chosen.
+
+Once a default language has been setup, 
+
+
+Further, the module provides a wrapper for the UrlManager extensions provided by [Codemix Yii2-LocaleUrls package](https://github.com/codemix/yii2-localeurls), which loads the enabled languages automatically.
+
+```php
+'components' => [
+..
+        // Languages enabled populated through database storage
+        // Further configuration options available at https://github.com/codemix/yii2-localeurls 
+        'urlManager' => [
+            'class' => 'humanized\translation\components\UrlManager',
+            'enablePrettyUrl' => true, 
+            'showScriptName' => false, // Only considered when enablePrettyUrl is set to true
+        ],
+..
+],
+
 
 ### Run Migrations 
 
