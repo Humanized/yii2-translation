@@ -61,6 +61,16 @@ class Language extends \yii\db\ActiveRecord
         return Locale::getDisplayLanguage($this->id, $locale);
     }
 
+    public static function enabled($fn = NULL)
+    {
+        if (!isset($fn)) {
+            $fn = function($model) {
+                return $model['id'];
+            };
+        }
+        return array_map($fn, Language::find()->asArray()->all());
+    }
+
     public static function enable($locale)
     {
         $code = Locale::getPrimaryLanguage($locale);
@@ -68,7 +78,16 @@ class Language extends \yii\db\ActiveRecord
             $language = new Language(['id' => $locale]);
             return $language->save();
         }
-        return false;
+        return FALSE;
+    }
+
+    public static function disable($locale)
+    {
+        $code = Locale::getPrimaryLanguage($locale);
+        if (isset($code)) {
+            return Language::deleteAll(['id' => $code]);
+        }
+        return FALSE;
     }
 
     public static function getDefault()
@@ -83,19 +102,23 @@ class Language extends \yii\db\ActiveRecord
     public static function setDefault($locale)
     {
         $code = Locale::getPrimaryLanguage($locale);
+        $pass = FALSE;
         if (isset($code)) {
             $oldDefault = Language::findOne(['is_default' => TRUE]);
             $newDefault = Language::findOne(['id' => $code]);
 
+            //Set new default language if required
             if (isset($newDefault)) {
-                $newDefault->is_default = TRUE;
-                $newDefault->save();
-                $oldDefault->is_default = FALSE;
+                $newDefault->is_default = 1;
+                $pass = $newDefault->save();
+            }
+            //Unset old default language if required
+            if ($pass && isset($oldDefault) && $newDefault->id != $oldDefault->id) {
+                $oldDefault->is_default = 0;
                 $oldDefault->save();
-                return TRUE;
             }
         }
-        return FALSE;
+        return $pass;
     }
 
 }

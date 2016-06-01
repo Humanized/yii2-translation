@@ -27,6 +27,12 @@ class LanguageController extends Controller
         return 0;
     }
 
+    public function actionSetDefault($locale)
+    {
+        Language::setDefault($locale);
+        return 0;
+    }
+
     public function actionGetDefault()
     {
         $out = Language::getDefault();
