@@ -2,16 +2,14 @@
 
 namespace humanized\translation\models;
 
+use Yii;
+use Locale;
+
 /**
  * This is the model class for table "language".
  *
- * @property string $code
+ * @property string $id
  * @property integer $is_default
- * @property integer $is_enabled
- * @property string $system_name
- *
- * @property LanguageTranslation[] $translations
- * @property Translation $translation
  */
 class Language extends \yii\db\ActiveRecord
 {
@@ -30,9 +28,10 @@ class Language extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'system_name'], 'required'],
-            [['code'], 'string', 'max' => 10],
-            [['system_name'], 'string', 'max' => 255],
+            [['id'], 'required'],
+            [['id'], 'unique'],
+            [['is_default'], 'integer'],
+            [['id'], 'string', 'max' => 2],
         ];
     }
 
@@ -42,26 +41,61 @@ class Language extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'code' => 'Code',
-            'system_name' => 'System Name',
+            'id' => Yii::t('app', 'ID'),
+            'is_default' => Yii::t('app', 'Is Default'),
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTranslations()
+    public function nativeLabel()
     {
-        return $this->hasMany(LanguageTranslation::className(), ['source_id' => 'code']);
+        return $this->label($this->id);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSiteLanguages()
+    public function localisedLabel()
     {
-        return $this->hasOne(Translation::className(), ['code' => 'code']);
+        return $this->label(Yii::$app->language);
     }
 
+    public function label($locale)
+    {
+        return Locale::getDisplayLanguage($this->id, $locale);
+    }
+
+    public static function enable($locale)
+    {
+        $code = Locale::getPrimaryLanguage($locale);
+        if (isset($code)) {
+            $language = new Language(['id' => $locale]);
+            return $language->save();
+        }
+        return false;
+    }
+
+    public static function getDefault()
+    {
+        $model = Language::findOne(['is_default' => TRUE]);
+        if (isset($model)) {
+            return $model->id;
+        }
+        return NULL;
+    }
+
+    public static function setDefault($locale)
+    {
+        $code = Locale::getPrimaryLanguage($locale);
+        if (isset($code)) {
+            $oldDefault = Language::findOne(['is_default' => TRUE]);
+            $newDefault = Language::findOne(['id' => $code]);
+
+            if (isset($newDefault)) {
+                $newDefault->is_default = TRUE;
+                $newDefault->save();
+                $oldDefault->is_default = FALSE;
+                $oldDefault->save();
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
 
 }

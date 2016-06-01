@@ -3,18 +3,17 @@
 
 Provides various interfaces to deal with routine tasks dealing with translation management.
 
-> This extension is under heavy development and requires the use of Yii framework version 2.0.7
-> This version of the framework is currently in active development  
-
-> This module should be considered highly unstable and it's use is discouraged until further notice (really)
-
-
-> Version 0.1 Release notes: 
-
 
 ## Features
 
-This module aims to be a clean, modular module to deal with database translation tasks.
+ Yii2 Multi-Lingual Site Module.
+ 
+ Provides interfaces to deal with: 
+ * Enable/disable languages using database storage (GUI,CLI)
+ * Set default application language using database storage (GUI,CLI)
+ 
+ Provides various flexible language selection widgets:
+ * Inline list 
 
 
 ## Installation
@@ -26,13 +25,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-$ php composer.phar require humanized/yii2-translation "dev-master"
+$ php composer.phar require humanized/yii2-translation "*"
 ```
 
 or add
 
 ```
-"humanized/yii2-translation": "dev-master"
+"humanized/yii2-translation": "*"
 ```
 
 to the ```require``` section of your `composer.json` file.
