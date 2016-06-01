@@ -13,6 +13,7 @@ Provides interfaces to deal with:
  * Set default application language using database storage (GUI,CLI)
 
 
+
 Provides various flexible language selection widgets:
  * Inline list 
 
@@ -72,7 +73,7 @@ return [
 ```
 
 
-Further, the module provides a wrapper for the UrlManager extensions provided by [Codemix Yii2-LocaleUrls package](https://github.com/codemix/yii2-localeurls), which loads the enabled languages automatically.
+The urlManager component provided by this module wraps, and as such depends of, the urlManager component provided by the [Codemix Yii2-LocaleUrls](https://github.com/codemix/yii2-localeurls) package. Configuration options are identical, except that the languages array is populated automatically from database storage when using the urlManager component provided by this package.  To enable the urlManager component, add following lines to the components array.
 
 ```php
 'components' => [
