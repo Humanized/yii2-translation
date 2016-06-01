@@ -88,6 +88,7 @@ The urlManager component provided by this module wraps, and as such depends of, 
 ..
 ],
 ```
+### Getting Started
 
 Once configured, one or multiple languages should be enabled using the various interfaces provided by the module. To get up-and-running quickly, an example is given to enable some languages using the CLI provided by the package:
 
