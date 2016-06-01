@@ -12,6 +12,7 @@ Provides various interfaces to deal with routine tasks dealing with translation 
  * Enable/disable languages using database storage (GUI,CLI)
  * Set default application language using database storage (GUI,CLI)
  
+
  Provides various flexible language selection widgets:
  * Inline list 
 
@@ -37,6 +38,13 @@ or add
 to the ```require``` section of your `composer.json` file.
 
 
+### Run Migrations 
+
+```bash
+$ php yii migrate/up --migrationPath=@vendor/humanized/yii2-translation/migrations
+```
+
+
 ### Add Module to Configuration
 
 Add following lines to the configuration file:
@@ -49,7 +57,11 @@ Add following lines to the configuration file:
 ],
 ```
 
-These lines allow access to the various interfaces provided by the module. Here, the chosen module-name is translation, as such the various routes will be available at translation/<controller>/<action>, though any module-name can be chosen.
+These lines allow access to the various interfaces provided by the module. Here, the chosen module-name is translation, as such the various routes will be available at translation/controller-id/action-id, though any module-name can be chosen.
+
+
+
+
 
 Once a default language has been setup, 
 
@@ -69,11 +81,5 @@ Further, the module provides a wrapper for the UrlManager extensions provided by
 ..
 ],
 
-
-### Run Migrations 
-
-```bash
-$ php yii migrate/up --migrationPath=@vendor/humanized/yii2-translation/migrations
-```
 
 For full instructions on how to use this module, once configured, check the [USAGE](USAGE.md)-file.
