@@ -89,7 +89,7 @@ The urlManager component provided by this module wraps, and as such depends of, 
 ],
 ```
 
-Once configured, one or multiple languages should be enabled using the various interfaces provided by the module. To get up-and-running quickly, an example is given to enable some languages using the CLI tool provided by the system:
+Once configured, one or multiple languages should be enabled using the various interfaces provided by the module. To get up-and-running quickly, an example is given to enable some languages using the CLI provided by the package:
 
 ```bash
 $ php yii translation/language/enable en
