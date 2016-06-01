@@ -83,7 +83,7 @@ The urlManager component provided by this module wraps, and as such depends of, 
         'urlManager' => [
             'class' => 'humanized\translation\components\UrlManager',
             'enablePrettyUrl' => true, 
-            'showScriptName' => false, // Only considered when enablePrettyUrl is set to true
+            'showScriptName' => false,
         ],
 ..
 ],
