@@ -63,12 +63,13 @@ class Language extends \yii\db\ActiveRecord
 
     public static function enabled($fn = NULL)
     {
-        if (!isset($fn)) {
-            $fn = function($model) {
-                return $model['id'];
-            };
-        }
-        return array_map($fn, Language::find()->asArray()->all());
+        $fnEnabled = function($model) use ($fn) {
+            if (isset($fn)) {
+                return $fn($model['id']);
+            }
+            return $model['id'];
+        };
+        return array_map($fnEnabled, Language::find()->asArray()->all());
     }
 
     public static function enable($locale)

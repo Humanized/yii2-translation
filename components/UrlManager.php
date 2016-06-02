@@ -10,6 +10,7 @@ class UrlManager extends BaseUrlManager
 
     public function init()
     {
+        \Yii::$app->language = Language::getDefault();
         $this->languages = Language::enabled();
         parent::init();
     }

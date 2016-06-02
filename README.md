@@ -61,19 +61,8 @@ Add following lines to the configuration file:
 Adding these lines allows access to the various interfaces provided by the module. 
 Here, the chosen module-name is translation, as such the various routes will be available at translation/controller-id/action-id, though any module-name can be chosen.
 
-To setup the default language, add the following line to the configuration file
 
-
-```php
-return [
-..
-    'language'=> \humanized\translation\models\Language::getDefault(),
-..
-]
-```
-
-
-The urlManager component provided by this module wraps, and as such depends of, the urlManager component provided by the [Codemix Yii2-LocaleUrls](https://github.com/codemix/yii2-localeurls) package. Configuration options are identical, except that the languages array is populated automatically from database storage when using the urlManager component provided by this package.  To enable the urlManager component, add following lines to the components array.
+This package contains an urlManager component which extends the urlManager component provided by the [Codemix Yii2-LocaleUrls](https://github.com/codemix/yii2-localeurls) package. Here setup of the default application language and population of the enabled website languages are handled automatically. Other configuration options are inherited between components. 
 
 ```php
 'components' => [
