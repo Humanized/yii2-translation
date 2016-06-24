@@ -57,12 +57,16 @@ class CallbackHelper
      */
     public static function updateButtonFn($url, $model, $key)
     {
-        $options = array_merge([
+
+        $options = [
+            'class' => 'set-default-language-button',
+            'data-pjax' => 'language-grid',
+            'url' => \yii\helpers\Url::to(['set-default-language', 'id' => $model->id]),
             'title' => Yii::t('yii', 'Update'),
             'aria-label' => Yii::t('yii', 'Update'),
-            'data-pjax' => '0',
-                ], []);
-        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, $options);
+            'style' => 'cursor:pointer'
+        ];
+        return $model->is_default == 0 ? Html::a('<span class="glyphicon glyphicon-asterisk"></span>', false, $options) : null;
     }
 
     /**
@@ -73,13 +77,14 @@ class CallbackHelper
      */
     public static function deleteButtonFn($url, $model, $key)
     {
-        $options = array_merge([
+        $options = [
+            'class' => 'disable-language-button',
             'title' => Yii::t('yii', 'Delete'),
             'aria-label' => Yii::t('yii', 'Delete'),
             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
             'data-method' => 'post',
-            'data-pjax' => '0',
-                ], []);
+            'data-pjax' => 'language-grid',
+        ];
         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
     }
 

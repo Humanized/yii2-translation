@@ -6,6 +6,7 @@ use Yii;
 use humanized\translation\models\LanguageSearch;
 use humanized\translation\helpers\CallbackHelper;
 use humanized\translation\helpers\TemplateHelper;
+use humanized\translation\widgets\grid\assets\GridViewAsset;
 
 /**
  * Translation Gridview Widget - By Humanized
@@ -30,7 +31,15 @@ class GridView extends \yii\grid\GridView
     /**
      * 
      * @var string The template used for composing grid column visibility and sort order.
-     * Tokens enclosed within curly brackets are treated as column names 
+     * Tokens enclosed within curly brackets are treated as column names.
+     * Following default column names are supported:
+     * <table>
+     * <tr><td>{code}</td><td>The iso-639-1 language code (see also https://en.wikipedia.org/wiki/ISO_639)</td></tr>
+     * <tr><td>{default}</td><td>Flag for displaying if language is the default application language</td></tr>
+     * <tr><td>{source}</td><td>The language display name in source (or native) language</td></tr>
+     * <tr><td>{translation}</td><td>The language display name in current application language</td></tr>
+     * <tr><td>{action}</td><td>Action column (defaults to the ActionColumn provided by the translation package)</td></tr>
+     * </table> 
      * @default '{code}{default}{source}{translation}{action}'
      */
     public $template = '{code}{default}{source}{translation}{action}';
@@ -50,7 +59,7 @@ class GridView extends \yii\grid\GridView
 
     /**
      *
-     * @var array<string> array of parsed gridview column template entries  
+     * @var array array containing gridview column template entries (without curly brackets)  
      */
     private $_template = [];
 
@@ -98,7 +107,15 @@ class GridView extends \yii\grid\GridView
 
     /**
      * 
-     * @param string $column
+     * @param string $column The column name
+     * 
+     * Setup & add single GridView data column
+     * 
+     * Individual column default options can be specified through the columnOptions configuration array. 
+     * 
+     * If no columnOptions are explicitly set for the column,   
+     * 
+     *  
      */
     protected function setupDataColumn($column)
     {
@@ -112,9 +129,12 @@ class GridView extends \yii\grid\GridView
      */
     protected function setupActionColumn()
     {
-
+        GridViewAsset::register($this->view);
         if (!isset($this->columnOptions['action'])) {
-            $this->columnOptions['action'] = ['class' => ActionColumn::className()];
+            $this->columnOptions['action'] = [];
+        }
+        if (!isset($this->columnOptions['action']['class'])) {
+            $this->columnOptions['action']['class'] = ActionColumn::className();
         }
         $this->columns[] = $this->columnOptions['action'];
     }

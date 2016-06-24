@@ -60,6 +60,7 @@ class LanguageSearch extends Language
 
         // grid filtering conditions
         $query->andFilterWhere(['like', 'id', $this->id]);
+        $query->orderBy('is_default DESC');
 
         return $dataProvider;
     }

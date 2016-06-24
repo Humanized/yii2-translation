@@ -2,15 +2,14 @@
 
 namespace humanized\translation\components;
 
-use codemix\localeurls\UrlManager as BaseUrlManager;
 use humanized\translation\models\Language;
 
-class UrlManager extends BaseUrlManager
+class UrlManager extends \codemix\localeurls\UrlManager
 {
 
     public function init()
     {
-    //    \Yii::$app->language = Language::getDefault();
+        //    \Yii::$app->language = Language::getDefault();
         $this->languages = Language::enabled();
         parent::init();
     }
