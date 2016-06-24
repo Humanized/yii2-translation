@@ -79,13 +79,13 @@ class CallbackHelper
     {
         $options = [
             'class' => 'disable-language-button',
+            'data-pjax' => 'language-grid',
+            'url' => \yii\helpers\Url::to(['disable-language', 'id' => $model->id]),
             'title' => Yii::t('yii', 'Delete'),
             'aria-label' => Yii::t('yii', 'Delete'),
-            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-            'data-method' => 'post',
-            'data-pjax' => 'language-grid',
+            'style' => 'cursor:pointer'
         ];
-        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, $options);
+        return Html::a('<span class="glyphicon glyphicon-trash"></span>', false, $options);
     }
 
 }

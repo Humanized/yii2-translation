@@ -8,13 +8,13 @@
 
 namespace humanized\translation\components;
 
-use yii\base\Action;
+use humanized\translation\models\Language;
 
 /**
  * Delete Action for controllers handling the Language GridView widget 
  * 
  */
-class DeleteAction extends Action
+class DeleteAction extends \yii\base\Action
 {
 
     public function run($id)
