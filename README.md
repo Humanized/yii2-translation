@@ -1,22 +1,26 @@
 # Yii2-Translation - README
 [![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)
 
-Provides various interfaces to deal with routine tasks dealing with translation management.
+Provides various interfaces to deal with routine tasks dealing with site translation management.
 
 
 ## Features
 
-Yii2 Multi-Lingual Site Module.
+Yii2 Site Translation Module
  
 Provides interfaces to deal with: 
  * Enable/disable languages using database storage (GUI,CLI)
  * Set default application language using database storage (GUI,CLI)
 
-
-
 Provides various flexible language selection widgets:
- * Inline list 
+ * Inline List
+ * Bootstrap Dropdown Button
+ * Bootstrap Dropdown List
 
+
+## Dependencies
+
+This package relies on Codemix Yii2 Locale Urls version 1.3.0. 
 
 ## Installation
 
