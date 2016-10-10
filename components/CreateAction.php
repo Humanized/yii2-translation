@@ -9,6 +9,7 @@
 namespace humanized\translation\components;
 
 use yii\base\Action;
+use humanized\translation\models\Language;
 
 /**
  * Create Action for controllers handling the Language GridView widget 

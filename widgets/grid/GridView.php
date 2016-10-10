@@ -28,21 +28,23 @@ class GridView extends \yii\grid\GridView
      * ------------------------------------------------------------------------
      */
 
+    public $tableOptions = ['class' => 'table table-bordered'];
+
     /**
      * 
      * @var string The template used for composing grid column visibility and sort order.
      * Tokens enclosed within curly brackets are treated as column names.
      * Following default column names are supported:
      * <table>
-     * <tr><td>{code}</td><td>The iso-639-1 language code (see also https://en.wikipedia.org/wiki/ISO_639)</td></tr>
-     * <tr><td>{default}</td><td>Flag for displaying if language is the default application language</td></tr>
+     * <tr><td>{id}</td><td>The iso-639-1 language code (see also https://en.wikipedia.org/wiki/ISO_639)</td></tr>
+     * <tr><td>{status}</td><td>-1 if disabled, 0 if enabled, 1 if default and enabled.</td></tr>
      * <tr><td>{source}</td><td>The language display name in source (or native) language</td></tr>
      * <tr><td>{translation}</td><td>The language display name in current application language</td></tr>
      * <tr><td>{action}</td><td>Action column (defaults to the ActionColumn provided by the translation package)</td></tr>
      * </table> 
-     * @default '{code}{default}{source}{translation}{action}'
+     * @default '{id}{status}{source}{translation}{action}'
      */
-    public $template = '{code}{default}{source}{translation}{action}';
+    public $template = '{id}{status}{source}{translation}{action}';
 
     /**
      * 
@@ -56,6 +58,27 @@ class GridView extends \yii\grid\GridView
      * @var array 
      */
     public $columnOptions = [];
+
+    /**
+     *
+     * @var boolean -
+     * @default false  
+     */
+    public $enableRegionalLocales = false;
+
+    /**
+     *
+     * @var array<string> - null
+     * @default null  
+     */
+    public $customAvailableLocales = null;
+
+    /**
+     *
+     * @var array<string> - null
+     * @default null  
+     */
+    public $customRegionalLocales = null;
 
     /**
      *
@@ -74,12 +97,35 @@ class GridView extends \yii\grid\GridView
      */
     public function init()
     {
+        $config = $this->_initConfig();
         //Setup dataprovider
-        $this->dataProvider = (new LanguageSearch())->search([]);
+        $this->dataProvider = (new LanguageSearch())->search($config);
+
+        if (empty($this->rowOptions)) {
+            $this->rowOptions = function($model, $key, $index, $grid) {
+                return ['class' => ($model['status'] == -1 ? 'danger' : ($model['status'] == 1 ? 'info' : 'active'))];
+            };
+        }
+
         //Parse widget template configuration string in to an array
         $this->_template = TemplateHelper::explode($this->template);
         //Run parent Gridview initialisation invokes overwritten initColumns method
         parent::init();
+    }
+
+    private function _initConfig()
+    {
+        $config = [];
+        if ($this->enableRegionalLocales) {
+            $config['enableRegionalLocales'] = true;
+        }
+        if (isset($this->customAvailableLocales) && !empty($this->customAvailableLocales)) {
+            $config['customAvailableLocales '] = $this->customAvailableLocales;
+        }
+        if (isset($this->customPrimaryLocales) && !empty($this->customPrimaryLocales)) {
+            $config['customPrimaryLocales '] = $this->customPrimaryLocales;
+        }
+        return $config;
     }
 
     /**
@@ -121,7 +167,7 @@ class GridView extends \yii\grid\GridView
     {
         $label = isset($this->columnOptions[$column]['label']) ? $this->columnOptions[$column]['label'] : $column;
         $value = isset($this->columnOptions[$column]['value']) ? $this->columnOptions[$column]['value'] : [new CallbackHelper, $column . 'ColumnFn'];
-        $this->columns[] = ['label' => Yii::t($this->category, $label), 'value' => $value];
+        $this->columns[] = ['attribute' => $label, 'label' => Yii::t($this->category, $label), 'value' => $value];
     }
 
     /**
@@ -129,14 +175,26 @@ class GridView extends \yii\grid\GridView
      */
     protected function setupActionColumn()
     {
-        GridViewAsset::register($this->view);
         if (!isset($this->columnOptions['action'])) {
             $this->columnOptions['action'] = [];
         }
         if (!isset($this->columnOptions['action']['class'])) {
             $this->columnOptions['action']['class'] = ActionColumn::className();
+            //$this->columnOptions['action']['label'] = 'Status';
+            $this->columnOptions['action']['header'] = 'status';
         }
         $this->columns[] = $this->columnOptions['action'];
+    }
+    
+    
+
+    public function run()
+    {
+        parent::run();
+        if (\Yii::$app->request->isPjax) {
+            return;
+        }
+        GridViewAsset::register($this->view);
     }
 
 }

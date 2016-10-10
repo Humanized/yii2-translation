@@ -4,6 +4,7 @@ namespace humanized\translation\commands;
 
 use yii\console\Controller;
 use \humanized\translation\models\Language;
+use humanized\localehelpers\Language as LanguageHelper;
 
 /**
  * 
@@ -53,7 +54,7 @@ class LanguageController extends Controller
 
     public function actionEnabled()
     {
-        $this->stdout(implode(', ', Language::enabled())."\n");
+        $this->stdout(implode(', ', Language::enabled()) . "\n");
         return 0;
     }
 
@@ -80,6 +81,18 @@ class LanguageController extends Controller
     public function actionDisable($locale)
     {
         Language::disable($locale);
+        return 0;
+    }
+
+    public function actionPrimary()
+    {
+        $this->stdout(implode(', ', LanguageHelper::primary()) . "\n");
+        return 0;
+    }
+
+    public function actionAvailable()
+    {
+        $this->stdout(implode(', ', LanguageHelper::available()) . "\n");
         return 0;
     }
 

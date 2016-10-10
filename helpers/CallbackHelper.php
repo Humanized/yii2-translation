@@ -5,6 +5,7 @@ namespace humanized\translation\helpers;
 use Yii;
 use yii\bootstrap\Html;
 use humanized\translation\models\Language;
+use humanized\localehelpers\Language as LanguageHelper;
 
 class CallbackHelper
 {
@@ -14,9 +15,9 @@ class CallbackHelper
      * @param Language $model
      * @return string
      */
-    public static function codeColumnFn($model)
+    public static function idColumnFn($model)
     {
-        return strtoupper($model->id);
+        return strtoupper($model['id']);
     }
 
     /**
@@ -24,9 +25,9 @@ class CallbackHelper
      * @param Language $model
      * @return string
      */
-    public static function defaultColumnFn($model)
+    public static function statusColumnFn($model)
     {
-        return $model->is_default;
+        return $model['status'];
     }
 
     /**
@@ -36,7 +37,7 @@ class CallbackHelper
      */
     public static function sourceColumnFn($model)
     {
-        return $model->source;
+        return $model['source'];
     }
 
     /**
@@ -46,7 +47,10 @@ class CallbackHelper
      */
     public static function translationColumnFn($model)
     {
-        return $model->translation;
+
+        return $model['translation'];
+
+        // return LanguageHelper::localised_label($model["id"]);
     }
 
     /**
@@ -61,31 +65,44 @@ class CallbackHelper
         $options = [
             'class' => 'set-default-language-button',
             'data-pjax' => 'language-grid',
-            'url' => \yii\helpers\Url::to(['set-default-language', 'id' => $model->id]),
+            'url' => \yii\helpers\Url::to(['set-default-language', 'id' => $model['id']]),
             'title' => Yii::t('yii', 'Update'),
             'aria-label' => Yii::t('yii', 'Update'),
             'style' => 'cursor:pointer'
         ];
-        return $model->is_default == 0 ? Html::a('<span class="glyphicon glyphicon-asterisk"></span>', false, $options) : null;
+        return $model['status'] == 0 ? Html::a('<span class="glyphicon glyphicon-asterisk"></span>', false, $options) : null;
     }
 
     /**
      * 
      * @param type $url
-     * @param Laanguage $model
+     * @param Language $model
      * @param type $key
      */
     public static function deleteButtonFn($url, $model, $key)
     {
+
+        $glyphSuffix = 'ok';
+        $actionPrefix = 'enable';
+        if ($model['status'] == 0) {
+            $glyphSuffix = 'remove';
+            $actionPrefix = 'disable';
+        }
+
         $options = [
-            'class' => 'disable-language-button',
+            'class' => $actionPrefix . '-language-button',
             'data-pjax' => 'language-grid',
-            'url' => \yii\helpers\Url::to(['disable-language', 'id' => $model->id]),
+            'url' => \yii\helpers\Url::to([$actionPrefix . '-language', 'id' => $model['id']]),
             'title' => Yii::t('yii', 'Delete'),
             'aria-label' => Yii::t('yii', 'Delete'),
             'style' => 'cursor:pointer'
         ];
-        return Html::a('<span class="glyphicon glyphicon-trash"></span>', false, $options);
+        return Html::a('<span class="glyphicon glyphicon-' . $glyphSuffix . '"></span>', false, $options);
+    }
+
+    public static function fnRowOptions($model, $key, $index, $grid)
+    {
+        return ['style' => 'color:green; background-color:green;'];
     }
 
 }

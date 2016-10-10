@@ -41,7 +41,7 @@ class Language extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ISO-639-2'),
+            'id' => Yii::t('app', 'Language Code'),
             'is_default' => Yii::t('app', 'Is Default'),
             'source' => Yii::t('app', 'Name (Native)'),
             'translation' => Yii::t('app', 'Name (Local)'),
@@ -100,6 +100,11 @@ class Language extends \yii\db\ActiveRecord
      * 
      */
 
+    public static function isEnabled($locale)
+    {
+        return in_array($locale, self::enabled());
+    }
+
     /**
      * 
      * @param function($model) $fn callback to be  
@@ -113,7 +118,11 @@ class Language extends \yii\db\ActiveRecord
             }
             return $model['id'];
         };
-        return array_map($fnEnabled, Language::find()->asArray()->all());
+        try {
+            return array_map($fnEnabled, Language::find()->asArray()->all());
+        } catch (\Exception $ex) {
+            return [];
+        }
     }
 
     /**
@@ -126,9 +135,19 @@ class Language extends \yii\db\ActiveRecord
         $code = Locale::getPrimaryLanguage($locale);
         if (isset($code)) {
             $language = new Language(['id' => $locale]);
-            return $language->save();
+            try {
+                if (!$language->save()) {
+                    return false;
+                }
+                if (self::getDefault() === NULL) {
+                    return self::setDefault($locale);
+                }
+                return true;
+            } catch (\Exception $ex) {
+                
+            }
         }
-        return FALSE;
+        return false;
     }
 
     /**
@@ -139,7 +158,7 @@ class Language extends \yii\db\ActiveRecord
     public static function disable($locale)
     {
         $code = Locale::getPrimaryLanguage($locale);
-        if (isset($code)) {
+        if (isset($code) && $code != self::getDefault()) {
             return Language::deleteAll(['id' => $code]);
         }
         return FALSE;
@@ -147,7 +166,7 @@ class Language extends \yii\db\ActiveRecord
 
     /**
      * 
-     * @return integer|NULL
+     * @return string(2)|NULL
      */
     public static function getDefault()
     {

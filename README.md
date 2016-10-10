@@ -9,7 +9,7 @@ Provides various interfaces to deal with routine tasks dealing with site transla
 Yii2 Site Translation Module
  
 Provides interfaces to deal with: 
- * Enable/disable languages using database storage (GUI,CLI)
+ * Enable/disable application languages using database storage (GUI,CLI)
  * Set default application language using database storage (GUI,CLI)
 
 Provides various flexible language selection widgets:

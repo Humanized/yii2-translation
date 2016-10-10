@@ -10,7 +10,7 @@ class m130524_201400_language_table extends Migration
     public function safeUp()
     {
         $this->createTable('language', [
-            'id' => $this->string(2)->notNull(), //ISO-2 Code is considered ID, more space allocated to keep things flexible
+            'id' => $this->string(2)->notNull(),
             'is_default' => $this->boolean()->notNull()->defaultValue(FALSE),
                 ], $this->tableOptions);
 
