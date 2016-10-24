@@ -185,16 +185,11 @@ class GridView extends \yii\grid\GridView
         }
         $this->columns[] = $this->columnOptions['action'];
     }
-    
-    
 
     public function run()
     {
-        parent::run();
-        if (\Yii::$app->request->isPjax) {
-            return;
-        }
         GridViewAsset::register($this->view);
+        parent::run();
     }
 
 }

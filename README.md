@@ -20,7 +20,9 @@ Provides various flexible language selection widgets:
 
 ## Dependencies
 
-This package relies on Codemix Yii2 Locale Urls version 1.3.0. 
+This package relies on following dependecies:
+  * Codemix Yii2 Locale Urls version 1.3.0. 
+  * Humanized PHP Locale helpers dev:master
 
 ## Installation
 

@@ -26,7 +26,7 @@ class ActionColumn extends \yii\grid\ActionColumn
      * 
      * @default '{update}{delete}'
      */
-    public $template = '{update}{delete}';
+    public $template = '{delete}';
 
     /**
      * Update Button Rendering Callback
